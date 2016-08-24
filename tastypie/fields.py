@@ -388,10 +388,7 @@ class DateTimeField(ApiField):
 
         if isinstance(value, six.string_types):
             try:
-                year, month, day = value[:10].split('-')
-                hour, minute, second = value[10:18].split(':')
-
-                return make_aware(datetime_safe.datetime(int(year), int(month), int(day), int(hour), int(minute), int(second)))
+                return make_aware(parse(value))
             except ValueError:
                 raise ApiFieldError("Datetime provided to '%s' field doesn't appear to be a valid datetime string: '%s'" % (self.instance_name, value))
 
