@@ -2,7 +2,6 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.utils import six
-from django.db.utils import ProgrammingError
 
 from tastypie.exceptions import BadRequest
 
@@ -124,8 +123,11 @@ class Paginator(object):
         Returns a count of the total number of objects seen.
         """
         try:
-            return self.objects.count()
-        except (AttributeError, TypeError, ProgrammingError):
+            if 'use_len' in self.request_data and self.request_data['use_len']:
+                return len(self.objects)
+            else:
+                return self.objects.count()
+        except (AttributeError, TypeError):
             # If it's not a QuerySet (or it's ilk), fallback to ``len``.
             return len(self.objects)
 
