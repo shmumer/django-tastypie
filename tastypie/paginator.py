@@ -123,7 +123,7 @@ class Paginator(object):
         Returns a count of the total number of objects seen.
         """
         try:
-            return self.objects.count()
+            return len(self.objects)
         except (AttributeError, TypeError):
             # If it's not a QuerySet (or it's ilk), fallback to ``len``.
             return len(self.objects)
