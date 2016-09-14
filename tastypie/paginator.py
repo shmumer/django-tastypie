@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.utils import six
+from django.db.utils import ProgrammingError
 
 from tastypie.exceptions import BadRequest
 
@@ -124,7 +125,7 @@ class Paginator(object):
         """
         try:
             return self.objects.count()
-        except (AttributeError, TypeError):
+        except (AttributeError, TypeError, ProgrammingError):
             # If it's not a QuerySet (or it's ilk), fallback to ``len``.
             return len(self.objects)
 
